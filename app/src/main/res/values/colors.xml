@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="risk">#ff6454</color>
+    <color name="attention">#febf30</color>
+    <color name="attention_capacity_50">#38fce700</color>
+    <color name="green">#4ecc88</color>
+    <color name="bg">#f6f8f9</color>
+    <color name="attention_text">#f0ad14</color>
+    <color name="grey">#7b7b7b</color>
+    <color name="dark">#1e2730</color>
+    <color name="cool_blue">#44b1c6</color>
+    <color name="separator">#ebebeb</color>
+    <color name="light_blue">#93d3de</color>
+    <color name="grey_50">#fbfbfb</color>
+    <color name="grey_400">#b9b9b9</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grey_separator">#8abdbdbd</color>
+    <color name="grey_tint">#bdbdbd</color>
+    <color name="grey_55">#f6f8f9</color>
+    <color name="white_unselected">#85f6f8f9</color>
+    <color name="white_capacity87">#deffffff</color>
+    <color name="grey_snap">#cad8d8d8</color>
+    <color name="blue_grey_50">#eef2f5</color>
+
+    <color name="black_capacity_50">#a7000000</color>
+
+
+
+
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="toast_exit_app_warning_text">Press back again to exit</string>
+    <string name="action_change_back">Change background</string>
+    <string name="action_settings">Settings</string>
+
+
+</resources>

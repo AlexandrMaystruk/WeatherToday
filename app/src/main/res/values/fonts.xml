@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+  <style name="StatusRisk">
+    <item name="android:textSize">13sp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/risk</item>
+  </style>
+
+  <style name="StatusAttention">
+    <item name="android:textSize">13sp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/attention_text</item>
+  </style>
+
+  <style name="StatusSuper">
+    <item name="android:textSize">13sp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/green</item>
+  </style>
+
+  <style name="H5Light">
+    <item name="android:textSize">@dimen/text_size_max</item>
+    <item name="android:fontFamily">roboto-light</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/grey_55</item>
+  </style>
+
+  <style name="H6">
+    <item name="android:textSize">24sp</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+  </style>
+
+  <style name="H6Regular">
+    <item name="android:textSize">24sp</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+  </style>
+
+
+  <style name="H6Light">
+    <item name="android:textSize">24sp</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/grey_55</item>
+  </style>
+
+  <style name="H6Light2">
+    <item name="android:textSize">24sp</item>
+    <item name="android:fontFamily">roboto-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/white</item>
+  </style>
+
+  <style name="SmallTitle">
+    <item name="android:textSize">@dimen/text_size_small</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/grey</item>
+  </style>
+
+  <style name="SmallTitleRed">
+    <item name="android:textSize">@dimen/text_size_small</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/risk</item>
+  </style>
+
+
+  <style name="TextStyle2">
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+    <item name="android:letterSpacing">-0.01</item>
+    <item name="android:lineSpacingExtra">5sp</item>
+  </style>
+
+  <style name="SubheaderBio">
+    <item name="android:textSize">20sp</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:lineSpacingExtra">0sp</item>
+    <item name="android:textColor">@color/dark</item>
+  </style>
+
+  <style name="Title">
+    <item name="android:textSize">20sp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:letterSpacing">0.01</item>
+    <item name="android:textColor">#ffffff</item>
+  </style>
+
+  <style name="SubtitileBio">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:letterSpacing">-0.01</item>
+    <item name="android:lineSpacingExtra">0sp</item>
+    <item name="android:textColor">@color/grey</item>
+  </style>
+
+  <style name="Button">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:letterSpacing">0.04</item>
+    <item name="android:lineSpacingExtra">6sp</item>
+    <item name="android:textColor">@color/cool_blue</item>
+  </style>
+
+
+
+  <style name="Subtitle">
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:letterSpacing">-0.01</item>
+    <item name="android:lineSpacingExtra">5sp</item>
+    <item name="android:textColor">@color/dark</item>
+  </style>
+
+  <style name="BodyGrey">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:letterSpacing">-0.01</item>
+    <item name="android:textColor">@color/grey</item>
+  </style>
+
+  <style name="BodyGreyCenter">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:letterSpacing">-0.01</item>
+    <item name="android:textColor">@color/grey</item>
+    <item name="android:layout_gravity">center</item>
+
+  </style>
+
+
+  <style name="BodyLight">
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:letterSpacing">-0.01</item>
+    <item name="android:lineSpacingExtra">5sp</item>
+    <item name="android:textColor">@color/white_capacity87</item>
+  </style>
+
+
+
+
+  <style name="BodyBlue">
+    <item name="android:textColor">@color/cool_blue</item>
+    <item name="android:fontFamily">roboto-medium</item>
+    <item name="android:textSize">@dimen/text_size_mid</item>
+  </style>
+
+  <style name="ButtonKeyboard">
+    <item name="android:background">@android:color/transparent</item>
+    <item name="android:textSize">42sp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+  </style>
+
+  <style name="H6Center">
+    <item name="android:textSize">@dimen/text_size_big</item>
+    <item name="android:textColor">@color/dark</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_gravity">center</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:letterSpacing">0.01</item>
+    <item name="android:lineSpacingExtra">5sp</item>
+    <item name="android:textStyle">normal</item>
+  </style>
+
+
+  <style name="H6Italic">
+    <item name="android:textSize">@dimen/text_size_big</item>
+    <item name="android:textColor">@color/dark</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_gravity">center</item>
+    <item name="android:fontFamily">sans-serif-light</item>
+    <item name="android:textStyle">italic</item>
+  </style>
+
+  <style name="BodyDark">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+  </style>
+
+  <style name="SmallTitleDark">
+    <item name="android:textSize">@dimen/text_size_small</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+  </style>
+
+  <style name="H5">
+    <item name="android:textSize">@dimen/text_size_max</item>
+    <item name="android:fontFamily">roboto-light</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+    <item name="android:letterSpacing">-3.3</item>
+  </style>
+
+
+  <style name="BodyUpper">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:layout_gravity">center</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+    <item name="android:textAllCaps">true</item>
+  </style>
+
+  <style name="BodyUpperMedium">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">roboto-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/dark</item>
+    <item name="android:layout_gravity">center</item>
+    <item name="android:textAllCaps">true</item>
+  </style>
+
+  <style name="SubtitleBioWhite">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/grey_55</item>
+    <item name="android:letterSpacing">-0.1</item>
+  </style>
+
+  <style name="TabTitle">
+    <item name="android:textSize">@dimen/text_size_mid</item>
+    <item name="android:fontFamily">roboto-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/white</item>
+  </style>
+
+
+  <style name="ToolbarTransparent" parent="Theme.AppCompat.Light">
+    <item name="colorPrimary">@android:color/transparent</item>
+    <item name="android:windowActionBarOverlay">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+  </style>
+
+  <style name="EditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorControlNormal">@color/grey_tint</item>
+    <item name="colorControlActivated">@color/cool_blue</item>
+    <item name="colorControlHighlight">@color/cool_blue</item>
+  </style>
+
+
+  <style name="Autocomplete" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+    <item name="android:background">@color/blue_grey_50</item>
+    <item name="colorControlNormal">@color/grey_tint</item>
+    <item name="colorControlActivated">@color/cool_blue</item>
+  </style>
+
+    <style name="Subtitle2Regular">
+      <item name="android:textSize">@dimen/text_size_mid</item>
+      <item name="android:fontFamily">roboto-regular</item>
+      <item name="android:textStyle">normal</item>
+      <item name="android:letterSpacing">0.46</item>
+      <item name="android:textColor">@color/dark</item>
+    </style>
+
+</resources>
