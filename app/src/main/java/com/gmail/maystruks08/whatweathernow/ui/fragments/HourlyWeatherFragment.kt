@@ -140,8 +140,9 @@ class HourlyWeatherFragment : BaseFragment(), HourlyWeatherContract.View {
 
     override fun onPause() {
         super.onPause()
-        context?.unregisterReceiver(networkChangeReceiver)
-
+        kotlin.runCatching {
+            context?.unregisterReceiver(networkChangeReceiver)
+        }
     }
 
     private fun checkLocationPermission() {
