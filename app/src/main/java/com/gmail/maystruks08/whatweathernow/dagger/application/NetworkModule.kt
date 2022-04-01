@@ -3,17 +3,15 @@ package com.gmail.maystruks08.whatweathernow.dagger.application
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
-import com.gmail.maystruks08.whatweathernow.data.network.WeatherApi
-import dagger.Module
-import dagger.Provides
-
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 import com.gmail.maystruks08.whatweathernow.data.BASE_URL
 import com.gmail.maystruks08.whatweathernow.data.CONNECT_TIMEOUT
 import com.gmail.maystruks08.whatweathernow.data.READ_TIMEOUT
+import com.gmail.maystruks08.whatweathernow.data.network.WeatherApi
+import dagger.Module
+import dagger.Provides
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -27,7 +25,6 @@ class NetworkModule {
         return retrofit.create(WeatherApi::class.java)
     }
 
-
     @Provides
     @Singleton
     fun provideRetrofitInterface(client: OkHttpClient): Retrofit {
@@ -35,10 +32,8 @@ class NetworkModule {
             .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
-
 
     @Provides
     @Singleton
@@ -47,7 +42,6 @@ class NetworkModule {
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS).build()
     }
-
 
     @Provides
     @Singleton

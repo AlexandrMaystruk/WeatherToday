@@ -1,6 +1,6 @@
 package com.gmail.maystruks08.whatweathernow.dagger.city
 
-import com.gmail.maystruks08.whatweathernow.presentation.base.BaseView
+import com.gmail.maystruks08.whatweathernow.ui.base.BaseView
 
 interface CityContract {
 
@@ -8,14 +8,13 @@ interface CityContract {
 
         fun showGridImage(list: ArrayList<Int>)
 
+        fun setSwitchState(shouldUseGeoLocation: Boolean)
+
     }
 
     interface Presenter {
-        fun attach(view: CityContract.View)
-
         fun initUi()
-
-        fun detach()
+        fun onUseGeoLocationSettingsChanged(shouldUseGeoLocation: Boolean)
     }
 
 }

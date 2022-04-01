@@ -1,18 +1,17 @@
 package com.gmail.maystruks08.whatweathernow.dagger.background
 
 
-import com.gmail.maystruks08.whatweathernow.presentation.presenter.SelectBackgroundPresenter
+import com.gmail.maystruks08.whatweathernow.ui.settings.SelectBackgroundPresenterImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module
-class BackgroundModule {
+abstract class BackgroundModule {
 
-
-    @Provides
+    @Binds
     @BackgroundScope
-    fun presenter(backgroundPresenter: SelectBackgroundPresenter): BackgroundContract.Presenter =
-        backgroundPresenter
-
+    abstract fun presenter(
+        backgroundPresenter: SelectBackgroundPresenterImpl
+    ): BackgroundContract.Presenter
 
 }

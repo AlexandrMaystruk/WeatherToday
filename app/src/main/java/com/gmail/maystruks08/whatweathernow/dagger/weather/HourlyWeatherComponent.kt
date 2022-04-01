@@ -1,13 +1,12 @@
 package com.gmail.maystruks08.whatweathernow.dagger.weather
 
-import android.net.ConnectivityManager
-import com.gmail.maystruks08.whatweathernow.ui.fragments.HourlyWeatherFragment
+import com.gmail.maystruks08.whatweathernow.ui.forecast.HourlyWeatherForecastFragment
 import dagger.Subcomponent
 
 @Subcomponent(modules = [HourlyWeatherModule::class])
 @HourlyWeatherScope
 interface HourlyWeatherComponent {
 
-    fun inject(hourlyWeatherFragment: HourlyWeatherFragment)
+    fun inject(hourlyWeatherForecastFragment: HourlyWeatherForecastFragment)
 
 }

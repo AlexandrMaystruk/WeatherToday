@@ -1,22 +1,18 @@
 package com.gmail.maystruks08.whatweathernow.dagger.background
 
-import android.content.Context
-import com.gmail.maystruks08.whatweathernow.presentation.base.BaseView
-import com.gmail.maystruks08.whatweathernow.presentation.presenter.BackgroundData
+import com.gmail.maystruks08.whatweathernow.ui.base.BaseView
+import com.gmail.maystruks08.whatweathernow.ui.base.BasePresenter
+import com.gmail.maystruks08.whatweathernow.ui.settings.adapter.BackgroundData
 
 interface BackgroundContract {
 
     interface View : BaseView {
-
-        fun showGridImage(listImage: ArrayList<BackgroundData>)
+        fun showGridImage(listImage: List<BackgroundData>)
+        fun navigateBack()
     }
 
-    interface Presenter {
-        fun attach(view: BackgroundContract.View)
-        fun initUi(context: Context?)
-
-
-        fun detach()
+    interface Presenter : BasePresenter<View> {
+        fun initUi()
         fun backgroundSelected()
     }
 

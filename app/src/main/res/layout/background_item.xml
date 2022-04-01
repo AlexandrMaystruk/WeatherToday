@@ -7,6 +7,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="@dimen/padding_size_16"
         android:layout_marginEnd="@dimen/padding_size_16"
-        android:layout_marginTop="@dimen/padding_size_16"/>
+        android:layout_marginTop="@dimen/padding_size_16"
+        android:contentDescription="sdv" />
 
 

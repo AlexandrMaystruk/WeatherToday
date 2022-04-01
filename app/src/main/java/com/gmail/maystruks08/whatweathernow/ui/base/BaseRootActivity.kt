@@ -1,21 +1,18 @@
 package com.gmail.maystruks08.whatweathernow.ui.base
 
+
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
-
-
+import androidx.appcompat.app.AppCompatActivity
 import com.gmail.maystruks08.whatweathernow.R
 
 abstract class BaseRootActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_content)
-
     }
 
     protected fun hideSoftKeyboard() {
@@ -24,6 +21,5 @@ abstract class BaseRootActivity : AppCompatActivity() {
             inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
     }
-
 
 }

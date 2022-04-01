@@ -30,20 +30,15 @@ class FindLocation(val context: Context) {
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
-
             Log.d("find", provider + "nStatusChanged------------------------>")
-
         }
 
         override fun onProviderEnabled(provider: String) {
             Log.d("find", provider + "onProviderEnabled------------------------>")
-
-
         }
 
         override fun onProviderDisabled(provider: String) {
             Log.d("find", provider + "onProviderDisabled------------------------>")
-
         }
     }
 
@@ -56,29 +51,23 @@ class FindLocation(val context: Context) {
         turnGPSOn()
 
         try {
-
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 0,
                 0f,
                 locationListener
             )
-
-
-            callback?.callbackLocationChange(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
-
-
+            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let {
+                callback?.callbackLocationChange(it)
+            }
         } catch (e: SecurityException) {
             Log.d(e.localizedMessage, e.stackTrace.toString())
         }
-
-
     }
 
     fun turnGPSOff() {
         Log.d("find", "turnGPSOff------------------------>")
         val provider = Settings.Secure.getString(context.contentResolver, Settings.Secure.ALLOWED_GEOLOCATION_ORIGINS)
-
         if (provider.contains("gps")) { //if gps is enabled
             val poke = Intent()
             poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider")
@@ -86,8 +75,6 @@ class FindLocation(val context: Context) {
             poke.data = Uri.parse("3")
             context.sendBroadcast(poke)
         }
-
-
     }
 
     fun turnGPSOn() {

@@ -17,7 +17,6 @@ class WeatherApplication : Application() {
         component = DaggerAppComponent
             .builder()
             .networkModule(NetworkModule())
-            .navigationModule(NavigationModule())
             .databaseModule(DatabaseModule())
             .contextModule(ContextModule(this))
             .build()

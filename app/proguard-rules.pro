@@ -12,7 +12,7 @@
 
 
 # ALSO REMEMBER KEEPING YOUR MODEL CLASSES
--keep class com.gmail.maystruks08.whatweathernow.data.model.** { *; }
+-keep class com.gmail.maystruks08.whatweathernow.data.models.** { *; }
 
 
 # Moshi

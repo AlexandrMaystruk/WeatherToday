@@ -2,30 +2,31 @@ package com.gmail.maystruks08.whatweathernow.dagger.weather
 
 import android.content.Context
 import com.gmail.maystruks08.whatweathernow.FindLocation
-import com.gmail.maystruks08.whatweathernow.data.model.HourlyWeatherRepository
-import com.gmail.maystruks08.whatweathernow.presentation.presenter.HourlyWeatherPresenter
+import com.gmail.maystruks08.whatweathernow.data.repository.HourlyWeatherRepository
+import com.gmail.maystruks08.whatweathernow.ui.forecast.HourlyWeatherPresenterImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
 @Module
-class HourlyWeatherModule {
+abstract class HourlyWeatherModule {
 
-    @Provides
+    @Binds
     @HourlyWeatherScope
-    fun repository(hourlyWeatherRepository: HourlyWeatherRepository): HourlyWeatherContract.Repository =
-        hourlyWeatherRepository
+    abstract fun repository(hourlyWeatherRepository: HourlyWeatherRepository): HourlyWeatherContract.Repository
 
 
-    @Provides
+    @Binds
     @HourlyWeatherScope
-    fun presenter(hourlyWeatherPresenter: HourlyWeatherPresenter): HourlyWeatherContract.Presenter =
-        hourlyWeatherPresenter
+    abstract fun presenter(hourlyWeatherPresenter: HourlyWeatherPresenterImpl): HourlyWeatherContract.Presenter
 
 
-    @Provides
-    @HourlyWeatherScope
-    fun provideLocationManager(context: Context): FindLocation {
-        return FindLocation(context)
+    companion object {
+        @Provides
+        @HourlyWeatherScope
+        fun provideLocationManager(context: Context): FindLocation {
+            return FindLocation(context)
+        }
     }
 
 }
