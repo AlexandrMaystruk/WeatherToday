@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,15 +26,14 @@
                 android:layout_marginBottom="@dimen/padding_size_44"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         <TextView
                 android:id="@+id/tvCurrentDate"
                 style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
-
+                android:layout_gravity="center" />
 
         <TextView
                 android:id="@+id/tvTemperatureNow"
@@ -43,8 +41,7 @@
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginBottom="@dimen/padding_size_65"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content" />
 
         <TextView
                 android:id="@+id/tvWindSpeed"
@@ -53,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/padding_size_36"
                 android:layout_marginEnd="@dimen/padding_size_24"
-                android:layout_gravity="bottom|center_horizontal"/>
-
+                android:layout_gravity="bottom|center_horizontal" />
 
         <TextView
                 android:id="@+id/tvHumidity"
@@ -63,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginBottom="@dimen/padding_size_36"
-                android:layout_marginStart="@dimen/padding_size_24"/>
+                android:layout_marginStart="@dimen/padding_size_24" />
 
         <com.gmail.maystruks08.whatweathernow.ui.widgets.CustomCircleSunClock
                 android:id="@+id/customWeatherSunClock"
@@ -72,26 +68,26 @@
                 android:layout_gravity="center"
                 app:colorProgress="@color/attention"
                 app:startAngle="180"
-                app:stokeWidth="6dp"/>
+                app:stokeWidth="6dp" />
 
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/attention"
-                  android:layout_gravity="center_vertical"
-                  android:layout_marginTop="@dimen/padding_size_19"
-                  android:layout_marginStart="@dimen/padding_size_7"
-                  android:id="@+id/tvSunrise"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/attention"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/padding_size_19"
+                android:layout_marginStart="@dimen/padding_size_7"
+                android:id="@+id/tvSunrise" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/attention"
-                  android:layout_marginTop="@dimen/padding_size_19"
-                  android:layout_gravity="center_vertical|end"
-                  android:layout_marginEnd="@dimen/padding_size_7"
-                  android:id="@+id/tvSunset"/>
-
-
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/attention"
+                android:layout_marginTop="@dimen/padding_size_19"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/padding_size_7"
+                android:id="@+id/tvSunset" />
     </FrameLayout>
 
 
@@ -102,8 +98,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.369"
-            app:layout_constraintHorizontal_bias="0.488"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.369"
+            app:layout_constraintHorizontal_bias="0.488" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -119,7 +116,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/padding_size_24"
             app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-            app:layout_constraintVertical_bias="1.0"/>
+            app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

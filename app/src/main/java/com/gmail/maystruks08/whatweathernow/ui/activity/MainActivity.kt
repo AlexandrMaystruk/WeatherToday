@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
 import com.gmail.maystruks08.whatweathernow.R
 import com.gmail.maystruks08.whatweathernow.WeatherApplication
 import com.gmail.maystruks08.whatweathernow.ui.editlocation.CityFragment
-import com.gmail.maystruks08.whatweathernow.ui.forecast.HourlyWeatherForecastFragment
+import com.gmail.maystruks08.whatweathernow.ui.forecast.WeatherForecastFragment
 import com.gmail.maystruks08.whatweathernow.ui.settings.SelectBackgroundFragment
 import kotlinx.android.synthetic.main.activity_content.*
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(main_toolbar)
         WeatherApplication.component.inject(this)
-        replaceFragment(HourlyWeatherForecastFragment.newInstance())
+        replaceFragment(WeatherForecastFragment.newInstance())
         setupBackgroundImage()
 
         val intentFilter = IntentFilter()

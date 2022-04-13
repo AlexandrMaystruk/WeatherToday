@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.gmail.maystruks08.whatweathernow.R
 import com.gmail.maystruks08.whatweathernow.WeatherApplication
-import com.gmail.maystruks08.whatweathernow.dagger.background.BackgroundContract
 import com.gmail.maystruks08.whatweathernow.ui.base.BaseFragment
 import com.gmail.maystruks08.whatweathernow.ui.settings.adapter.BackgroundData
 import com.gmail.maystruks08.whatweathernow.ui.settings.adapter.BackgroundRecyclerAdapter

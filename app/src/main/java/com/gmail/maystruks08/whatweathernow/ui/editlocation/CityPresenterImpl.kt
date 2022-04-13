@@ -1,6 +1,5 @@
 package com.gmail.maystruks08.whatweathernow.ui.editlocation
 
-import com.gmail.maystruks08.whatweathernow.dagger.city.CityContract
 import com.gmail.maystruks08.whatweathernow.data.network.LocaleStorage
 import com.gmail.maystruks08.whatweathernow.ui.base.BasePresenterImpl
 import kotlinx.coroutines.Dispatchers

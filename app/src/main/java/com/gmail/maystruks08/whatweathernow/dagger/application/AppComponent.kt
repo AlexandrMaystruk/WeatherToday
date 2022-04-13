@@ -5,7 +5,6 @@ import android.content.Context
 import com.gmail.maystruks08.whatweathernow.dagger.background.BackgroundComponent
 import com.gmail.maystruks08.whatweathernow.dagger.city.CityComponent
 import com.gmail.maystruks08.whatweathernow.dagger.weather.HourlyWeatherComponent
-import com.gmail.maystruks08.whatweathernow.data.database.WeatherDataBase
 import com.gmail.maystruks08.whatweathernow.data.network.NetworkUtil
 import com.gmail.maystruks08.whatweathernow.data.network.WeatherApi
 import com.gmail.maystruks08.whatweathernow.ui.activity.MainActivity
@@ -18,7 +17,6 @@ interface AppComponent {
 
     fun provideContext(): Context
     fun provideWeatherApi(): WeatherApi
-    fun provideAppDatabase(): WeatherDataBase
     fun provideNetworkUtil(): NetworkUtil
 
     fun provideHourlyWeatherComponent(): HourlyWeatherComponent

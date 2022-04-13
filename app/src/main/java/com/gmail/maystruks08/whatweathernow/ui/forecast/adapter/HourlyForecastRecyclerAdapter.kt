@@ -1,93 +1,71 @@
 package com.gmail.maystruks08.whatweathernow.ui.forecast.adapter
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gmail.maystruks08.whatweathernow.R
-import com.gmail.maystruks08.whatweathernow.data.database.entity.WeatherForecastData
+import com.gmail.maystruks08.whatweathernow.ui.forecast.HourItemUi
 import kotlinx.android.synthetic.main.weather_item.view.*
+import kotlin.math.absoluteValue
 
 
-class HourlyForecastRecyclerAdapter(
-    var mForecast: List<WeatherForecastData>,
-    val context: Context?
-) :
+class HourlyForecastRecyclerAdapter :
     RecyclerView.Adapter<HourlyForecastRecyclerAdapter.MyViewHolder>() {
 
-    private var min: Int = 0
-    private var max: Int = 0
+    private var maxTemp = 0f
+    private var minTemp = 0f
+    private var progressShift = 0f
 
-    init {
-        //find diapason
-        min = mForecast[0].temp
-        max = mForecast[0].temp
+    private var forecastItems: List<HourItemUi> = emptyList()
 
-        for (i in 0 until mForecast.size) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(minTemp: Float, maxTemp: Float, items: List<HourItemUi>) {
+        this.maxTemp = maxTemp
+        this.minTemp = minTemp
 
-            if (mForecast[i].temp < min) min = mForecast[i].temp
-            if (mForecast[i].temp > max) max = mForecast[i].temp
-
+        if (minTemp < 0) {
+            this.maxTemp += minTemp.absoluteValue
+            this.progressShift = minTemp.absoluteValue
         }
-        min -= 273
-        max -= 273
 
+        this.forecastItems = items
+        notifyDataSetChanged()
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
+        val itemView = LayoutInflater
+            .from(parent.context)
             .inflate(R.layout.weather_item, parent, false)
 
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
-
-        holder.cwTvTemperature.text = (mForecast[position].temp - 273).toString().plus("°C")
-        holder.cwTvTime.text = mForecast[position].dt_txt
-        holder.cwTvHumidity.text = mForecast[position].humidity
-
-        holder.cwValueTemperature.max = max - min
-        holder.cwValueTemperature.progress = mForecast[position].temp - 273
-
-        val iconUrl = "http://openweathermap.org/img/w/${mForecast[position].icon}.png"
-
-        Glide
-            .with(context!!)
-            .load(Uri.parse(iconUrl))
-            .into(holder.cwIvIcon)
-
-
+        holder.bind(forecastItems[position])
     }
 
-    override fun getItemCount(): Int {
-        return mForecast.size
+    override fun getItemCount() = forecastItems.size
+
+    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+
+        fun bind(item: HourItemUi) {
+            val temperature = "${item.temperature}°C"
+            view.apply {
+                cwTvTime.text = item.time
+                cwTvHumidity.text = item.humidity
+                cwValueTemperature.max = maxTemp.toInt()
+                cwValueTemperature.progress = (item.temperature + progressShift).toInt()
+                cwTvTemperature.text = temperature
+
+                Glide
+                    .with(context)
+                    .load(Uri.parse(item.weatherIconUrl))
+                    .into(cwIvIcon)
+            }
+        }
     }
-
-
-    fun update(forecast: List<WeatherForecastData>) {
-        this.mForecast = forecast
-        notifyDataSetChanged()
-    }
-
-
-    inner class MyViewHolder(v: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {
-
-        val cwTvTime: TextView = v.cwTvTime
-        val cwTvHumidity: TextView = v.cwTvHumidity
-        val cwTvTemperature: TextView = v.cwTvTemperature
-        val cwValueTemperature: ProgressBar = v.cwValueTemperature
-        val cwIvIcon: ImageView = v.cwIvIcon
-
-
-    }
-
 }

@@ -1,4 +1,4 @@
-package com.gmail.maystruks08.whatweathernow.dagger.city
+package com.gmail.maystruks08.whatweathernow.ui.editlocation
 
 import com.gmail.maystruks08.whatweathernow.ui.base.BaseView
 

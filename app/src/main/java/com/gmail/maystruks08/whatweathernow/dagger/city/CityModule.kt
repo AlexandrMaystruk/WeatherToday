@@ -1,6 +1,7 @@
 package com.gmail.maystruks08.whatweathernow.dagger.city
 
 
+import com.gmail.maystruks08.whatweathernow.ui.editlocation.CityContract
 import com.gmail.maystruks08.whatweathernow.ui.editlocation.CityPresenterImpl
 import dagger.Binds
 import dagger.Module

@@ -3,7 +3,6 @@ package com.gmail.maystruks08.whatweathernow.ui.editlocation
 import android.os.Bundle
 import com.gmail.maystruks08.whatweathernow.R
 import com.gmail.maystruks08.whatweathernow.WeatherApplication
-import com.gmail.maystruks08.whatweathernow.dagger.city.CityContract
 import com.gmail.maystruks08.whatweathernow.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_city.*
 import javax.inject.Inject

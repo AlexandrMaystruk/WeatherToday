@@ -9,9 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.maystruks08.whatweathernow.FindLocation
 import com.gmail.maystruks08.whatweathernow.R
 import com.gmail.maystruks08.whatweathernow.WeatherApplication
-import com.gmail.maystruks08.whatweathernow.dagger.weather.HourlyWeatherContract
-import com.gmail.maystruks08.whatweathernow.data.database.entity.WeatherCurrentData
-import com.gmail.maystruks08.whatweathernow.data.database.entity.WeatherForecastData
 import com.gmail.maystruks08.whatweathernow.data.network.LocaleStorage
 import com.gmail.maystruks08.whatweathernow.ui.base.BaseFragment
 import com.gmail.maystruks08.whatweathernow.ui.forecast.adapter.HourlyForecastRecyclerAdapter
@@ -29,13 +26,13 @@ import java.util.*
 import javax.inject.Inject
 
 
-class HourlyWeatherForecastFragment : BaseFragment(), HourlyWeatherContract.View {
+class WeatherForecastFragment : BaseFragment(), WeatherForecastContract.View {
 
     @Inject
     lateinit var location: FindLocation
 
     @Inject
-    lateinit var presenter: HourlyWeatherContract.Presenter
+    lateinit var presenter: WeatherForecastContract.Presenter
 
     private var mAdapter: HourlyForecastRecyclerAdapter? = null
 
@@ -52,11 +49,14 @@ class HourlyWeatherForecastFragment : BaseFragment(), HourlyWeatherContract.View
     override fun initViews() {
         checkLocationPermission()
 
-        activity()?.removeNavigationIcon()
-        activity()?.showOptionMenu(true)
-        activity()?.configOverlay(true)
-
-        recycler3hForecast?.layoutManager = LinearLayoutManager(
+        activity()?.run {
+            removeNavigationIcon()
+            showOptionMenu(true)
+            configOverlay(true)
+        }
+        mAdapter = HourlyForecastRecyclerAdapter()
+        recycler3hForecast.adapter = mAdapter
+        recycler3hForecast.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
             false
@@ -64,7 +64,29 @@ class HourlyWeatherForecastFragment : BaseFragment(), HourlyWeatherContract.View
         presenter.loadContent()
     }
 
-    override fun showWeatherForecastByLatLnd(forecast: WeatherCurrentData) {
+    override fun showCurrentWeather(forecast: CurrentWeatherUi) {
+        runUpdatingWeatherSunClock()
+
+        tvWindSpeed.text = forecast.windSpeed
+        tvTemperatureNow.text = forecast.temp
+        tvCurrentTime.text = SimpleDateFormat(
+            "HH:mm",
+            Locale.getDefault()
+        ).format(Calendar.getInstance().time)
+
+        tvCurrentDate.text = SimpleDateFormat(
+            "EEE, d MMM yyyy",
+            Locale.getDefault()
+        ).format(Calendar.getInstance().time)
+
+        tvHumidity.text = forecast.humidity
+        tvSunrise.text = SimpleDateFormat("HH:mm", Locale.getDefault()).format(forecast.sunrise)
+        tvSunset.text = SimpleDateFormat("HH:mm", Locale.getDefault()).format(forecast.sunset)
+        customWeatherSunClock.setSunriseSunsetTime(forecast.sunrise, forecast.sunset)
+
+    }
+
+    private fun runUpdatingWeatherSunClock() {
         //set progress each minutes
         Timer().schedule(object : TimerTask() {
             override fun run() {
@@ -75,35 +97,13 @@ class HourlyWeatherForecastFragment : BaseFragment(), HourlyWeatherContract.View
                 }
             }
         }, 0, 6000)
-
-
-        tvWindSpeed?.text = forecast.windSpeed.toString().plus("km/h")
-        tvTemperatureNow?.text = forecast.temp.plus("°C")
-
-        tvCurrentTime?.text = SimpleDateFormat(
-            "HH:mm",
-            Locale.getDefault()
-        ).format(Calendar.getInstance().time)
-
-        tvCurrentDate?.text = SimpleDateFormat(
-            "EEE, d MMM yyyy",
-            Locale.getDefault()
-        ).format(Calendar.getInstance().time)
-
-        tvHumidity?.text = forecast.humidity.plus("%")
-
-        customWeatherSunClock?.setSunriseSunsetTime(forecast.sunrise * 1000L, forecast.sunset * 1000L)
-
-        tvSunrise?.text = SimpleDateFormat("HH:mm", Locale.getDefault()).format(forecast.sunrise * 1000L)
-        tvSunset?.text = SimpleDateFormat("HH:mm", Locale.getDefault()).format(forecast.sunset * 1000L)
-
     }
 
-    override fun showFiveDayWeatherForecast(forecast: List<WeatherForecastData>) {
-        mAdapter = HourlyForecastRecyclerAdapter(forecast, context)
-        recycler3hForecast?.adapter = mAdapter
+    override fun showFiveDayWeatherForecast(forecast: HourlyForecastUi) {
+        (recycler3hForecast?.adapter as? HourlyForecastRecyclerAdapter)
+            ?.update(forecast.minTemp, forecast.maxTemp, forecast.hourItem)
 
-        activity()?.setToolbarTitle(forecast[0].city)
+        activity()?.setToolbarTitle(forecast.city)
     }
 
     override fun showLoading() {
@@ -167,8 +167,8 @@ class HourlyWeatherForecastFragment : BaseFragment(), HourlyWeatherContract.View
     }
 
     companion object {
-        fun newInstance(): HourlyWeatherForecastFragment {
-            val fragment = HourlyWeatherForecastFragment()
+        fun newInstance(): WeatherForecastFragment {
+            val fragment = WeatherForecastFragment()
             val args = Bundle()
             fragment.arguments = args
             return fragment

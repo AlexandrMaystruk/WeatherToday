@@ -1,6 +1,7 @@
 package com.gmail.maystruks08.whatweathernow.dagger.background
 
 
+import com.gmail.maystruks08.whatweathernow.ui.settings.BackgroundContract
 import com.gmail.maystruks08.whatweathernow.ui.settings.SelectBackgroundPresenterImpl
 import dagger.Binds
 import dagger.Module

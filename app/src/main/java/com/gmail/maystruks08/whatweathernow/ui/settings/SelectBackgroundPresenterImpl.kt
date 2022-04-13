@@ -2,7 +2,6 @@ package com.gmail.maystruks08.whatweathernow.ui.settings
 
 import android.content.Context
 import com.gmail.maystruks08.whatweathernow.R
-import com.gmail.maystruks08.whatweathernow.dagger.background.BackgroundContract
 import com.gmail.maystruks08.whatweathernow.ui.base.BasePresenterImpl
 import com.gmail.maystruks08.whatweathernow.ui.settings.adapter.BackgroundData
 import javax.inject.Inject

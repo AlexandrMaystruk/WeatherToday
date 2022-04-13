@@ -1,4 +1,4 @@
-package com.gmail.maystruks08.whatweathernow.dagger.background
+package com.gmail.maystruks08.whatweathernow.ui.settings
 
 import com.gmail.maystruks08.whatweathernow.ui.base.BaseView
 import com.gmail.maystruks08.whatweathernow.ui.base.BasePresenter
