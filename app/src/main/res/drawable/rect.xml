@@ -5,7 +5,7 @@
 
     <stroke
             android:width="0.6dp"
-            android:color="#875b0000"/>
+            android:color="@color/attention_capacity_50"/>
     <padding
             android:bottom="5dp"
             android:left="5dp"

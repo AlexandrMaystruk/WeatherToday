@@ -19,7 +19,7 @@ data class Daily(
     val moonset: Int,
     val moonPhase: Double,
     val temp: Temp,
-    val feelsLike: FeelsLike,
+    val feelsLike: FeelsLike?,
     val pressure: Int,
     val humidity: Int,
     val dewPoint: Double,

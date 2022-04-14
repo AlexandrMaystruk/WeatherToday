@@ -2,6 +2,7 @@ package com.gmail.maystruks08.whatweathernow.ui.forecast
 
 import android.util.Log
 import com.gmail.maystruks08.whatweathernow.data.dto.current.CurrentWeatherData
+import com.gmail.maystruks08.whatweathernow.data.dto.daily7days.DailyForecast7Days
 import com.gmail.maystruks08.whatweathernow.data.dto.hourly5days.HourlyForecast5Days
 import com.gmail.maystruks08.whatweathernow.data.getShortTime
 import com.gmail.maystruks08.whatweathernow.data.network.LocaleStorage
@@ -10,9 +11,11 @@ import com.gmail.maystruks08.whatweathernow.data.repository.WeatherRepository
 import com.gmail.maystruks08.whatweathernow.data.repository.entity.ForecastMode
 import com.gmail.maystruks08.whatweathernow.data.toHumanDayOfWeek
 import com.gmail.maystruks08.whatweathernow.ui.base.BasePresenterImpl
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 
@@ -21,16 +24,25 @@ class WeatherForecastPresenterImpl @Inject constructor(
     private var repository: WeatherRepository
 ) : BasePresenterImpl<WeatherForecastContract.View>(), WeatherForecastContract.Presenter {
 
+    private var timerTickerJob: Job? = null
+    private var currentWeatherJob: Job? = null
+    private var hourlyFiveDayForecastJob: Job? = null
+    private var forecast7DaysJob: Job? = null
+
     override fun loadContent() {
         presenterCoroutineScope.launch {
+            getCurrentWeather()
             repository
                 .getForecastMode()
                 .collect {
+                    val isEnabled = when (it) {
+                        ForecastMode.HOURLY -> true
+                        ForecastMode.TEN_DAYS -> false
+                    }
+                    updateUI { setForecastSwitchModeState(isEnabled) }
                     when (it) {
-                        ForecastMode.HOURLY -> getHourlyForecast()
-                        ForecastMode.TEN_DAYS -> {
-
-                        }
+                        ForecastMode.HOURLY -> getHourlyFiveDayForecast()
+                        ForecastMode.TEN_DAYS -> get7DaysForecast()
                     }
                 }
         }
@@ -42,15 +54,17 @@ class WeatherForecastPresenterImpl @Inject constructor(
         }
     }
 
-    private fun getHourlyForecast() {
-        getForecastByLatLng()
-        getHourlyFiveDayForecastByLatLng()
-//        get7DaysForecastByLatLng()
+    override fun onWeatherModeChanged(enabled: Boolean) {
+        presenterCoroutineScope.launch {
+            val forecastMode = if (enabled) ForecastMode.HOURLY else ForecastMode.TEN_DAYS
+            repository.updateForecastMode(forecastMode)
+        }
     }
 
-    private fun getForecastByLatLng() {
-        view.showLoading()
-        presenterCoroutineScope.launch {
+    private fun getCurrentWeather() {
+        currentWeatherJob?.cancel()
+        currentWeatherJob = presenterCoroutineScope.launch {
+            updateUI { view.showLoading() }
             kotlin.runCatching {
                 Log.d("RETROFIT", "start call current")
                 repository
@@ -61,6 +75,12 @@ class WeatherForecastPresenterImpl @Inject constructor(
                         updateUI {
                             hideLoading()
                             showCurrentWeather(it)
+                            timerTickerJob?.cancel()
+                            timerTickerJob = presenterCoroutineScope.launch(Dispatchers.IO) {
+                                tickerFlow(3 * 60 * 1000).collectLatest {
+                                    updateTime()
+                                }
+                            }
                         }
                     }
             }.onFailure {
@@ -73,9 +93,10 @@ class WeatherForecastPresenterImpl @Inject constructor(
         }
     }
 
-    private fun getHourlyFiveDayForecastByLatLng() {
-        view.showLoading()
-        presenterCoroutineScope.launch {
+    private fun getHourlyFiveDayForecast() {
+        cancelForecastsJobs()
+        hourlyFiveDayForecastJob = presenterCoroutineScope.launch {
+            updateUI { view.showLoading() }
             kotlin.runCatching {
                 Log.d("RETROFIT", "start call hourly")
                 repository
@@ -85,7 +106,7 @@ class WeatherForecastPresenterImpl @Inject constructor(
                         Log.d("RETROFIT", "RESULT hourly -> $weatherCurrentData")
                         updateUI {
                             hideLoading()
-                            showFiveDayWeatherForecast(weatherCurrentData)
+                            showHourlyWeatherForecast(weatherCurrentData)
                         }
                     }
             }.onFailure {
@@ -98,21 +119,20 @@ class WeatherForecastPresenterImpl @Inject constructor(
         }
     }
 
-    private fun get7DaysForecastByLatLng() {
-        view.showLoading()
-        presenterCoroutineScope.launch {
+    private fun get7DaysForecast() {
+        cancelForecastsJobs()
+        forecast7DaysJob = presenterCoroutineScope.launch {
+            updateUI { view.showLoading() }
             kotlin.runCatching {
                 Log.d("RETROFIT", "start call 7 days")
                 repository
                     .get7DaysForecast()
-                    .map {
-                        //map to ui
-                    }
-                    .collect { weatherCurrentData ->
-                        Log.d("RETROFIT", "RESULT 7 days -> $weatherCurrentData")
+                    .map { it.toUi() }
+                    .collect { forecastItems ->
+                        Log.d("RETROFIT", "RESULT 7 days -> $forecastItems")
                         updateUI {
                             hideLoading()
-                            //TODO show on UI
+                            showFiveDayWeatherForecast(forecastItems)
                         }
                     }
             }.onFailure {
@@ -123,6 +143,11 @@ class WeatherForecastPresenterImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun cancelForecastsJobs() {
+        hourlyFiveDayForecastJob?.cancel()
+        forecast7DaysJob?.cancel()
     }
 
     private fun CurrentWeatherData.toUI() = CurrentWeatherUi(
@@ -138,7 +163,7 @@ class WeatherForecastPresenterImpl @Inject constructor(
         var minTemp = list.firstOrNull()?.main?.temp_min?.toFloat() ?: 0f
         var maxTemp = list.firstOrNull()?.main?.temp_max?.toFloat() ?: 0f
 
-        val hourItem = mutableListOf<HourItemUi>(
+        val hourItem = mutableListOf<HourWeatherItemUi>(
         ).apply {
             list.forEach {
                 val shortWeatherInfo = it.getShortWeatherInfo()
@@ -148,9 +173,9 @@ class WeatherForecastPresenterImpl @Inject constructor(
                 if (minTemperature < minTemp) minTemp = minTemperature
                 val dateTime = it.dt_txt.parseDate()
                 add(
-                    HourItemUi(
-                        time = dateTime.toHumanDayOfWeek() + " " + dateTime.getShortTime(),
-                        humidity = it.main.humidity.toString().plus(" %"),
+                    HourWeatherItemUi(
+                        time = "${dateTime.toHumanDayOfWeek()} ${dateTime.getShortTime()}",
+                        humidity = it.main.humidity.toString().plus("%"),
                         temperature = it.main.temp.toFloat(),
                         maxTemperature = it.main.temp_max.toFloat(),
                         minTemperature = it.main.temp_min.toFloat(),
@@ -165,5 +190,44 @@ class WeatherForecastPresenterImpl @Inject constructor(
             minTemp = minTemp,
             maxTemp = maxTemp
         )
+    }
+
+    private fun DailyForecast7Days.toUi(): DailyForecastUi {
+        var minTemp = daily.firstOrNull()?.temp?.min?.toFloat() ?: 0f
+        var maxTemp = daily.firstOrNull()?.temp?.max?.toFloat() ?: 0f
+        val items = daily.mapIndexed { index, daily ->
+            val shortWeatherInfo = daily.getShortWeatherInfo()
+            val maxTemperature = daily.temp.max.toFloat()
+            val minTemperature = daily.temp.min.toFloat()
+            if (maxTemperature > maxTemp) maxTemp = maxTemperature
+            if (minTemperature < minTemp) minTemp = minTemperature
+            DayWeatherItemUi(
+                sunrise = daily.sunrise.toLong() * 1000L,
+                sunset = daily.sunset.toLong() * 1000L,
+                pressure = daily.pressure.toString(),
+                humidity = "${daily.humidity}%",
+                clouds = daily.clouds,
+                dateTime = Date(daily.dt.toLong() * 1000L).toHumanDayOfWeek(),
+                windSpeed = daily.windSpeed.toFloat(),
+                tempMin = "${daily.temp.min.toFloat()}°C",
+                tempMax = "${daily.temp.max.toFloat()}°C",
+                tempMinFeelsLike = daily.feelsLike?.night?.toFloat(),
+                tempMaxFeelsLike = daily.feelsLike?.day?.toFloat(),
+                icon = "http://openweathermap.org/img/w/${shortWeatherInfo.icon}.png",
+                description = shortWeatherInfo.description,
+                ultraviolet = "уф ${daily.uvi.toFloat()}",
+                rain = "${daily.rain.toFloat()} mm/ч",
+                isSelected = index == 0
+            )
+        }
+        return DailyForecastUi(minTemp, maxTemp, items)
+    }
+
+    private fun tickerFlow(period: Long, initialDelay: Long = 0L) = flow {
+        delay(initialDelay)
+        while (true) {
+            emit(Unit)
+            delay(period)
+        }
     }
 }

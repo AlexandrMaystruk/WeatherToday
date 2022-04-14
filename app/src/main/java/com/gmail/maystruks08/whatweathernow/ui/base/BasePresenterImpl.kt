@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 abstract class BasePresenterImpl<View : BaseView> : BasePresenter<View> {
 
-    val presenterCoroutineScope = CoroutineScope(Dispatchers.Main)
+    val presenterCoroutineScope = CoroutineScope(Dispatchers.IO)
 
     private var _view: View? = null
     override val view: View

@@ -118,6 +118,10 @@ class WeatherRepository @Inject constructor(
         localeStorage.saveLocation(newLocation)
     }
 
+    override suspend fun updateForecastMode(newForecastMode: ForecastMode) {
+        localeStorage.saveForecastMode(newForecastMode)
+    }
+
     private fun <T> handleApiError(response: Response<T>): Nothing {
         if (!response.isSuccessful) {
             val errorMessage = when (response.code()) {

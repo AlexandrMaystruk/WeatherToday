@@ -34,8 +34,7 @@ class WeatherForecastFragment : BaseFragment(), WeatherForecastContract.View {
     @Inject
     lateinit var presenter: WeatherForecastContract.Presenter
 
-    private var mAdapter: HourlyForecastRecyclerAdapter? = null
-
+    private var hourlyForecastRecyclerAdapter: HourlyForecastRecyclerAdapter? = null
 
     override fun provideLayoutRes(): Int {
         return R.layout.fragment_hourly_weather
@@ -54,8 +53,8 @@ class WeatherForecastFragment : BaseFragment(), WeatherForecastContract.View {
             showOptionMenu(true)
             configOverlay(true)
         }
-        mAdapter = HourlyForecastRecyclerAdapter()
-        recycler3hForecast.adapter = mAdapter
+        hourlyForecastRecyclerAdapter = HourlyForecastRecyclerAdapter()
+        recycler3hForecast.adapter = hourlyForecastRecyclerAdapter
         recycler3hForecast.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
@@ -65,8 +64,6 @@ class WeatherForecastFragment : BaseFragment(), WeatherForecastContract.View {
     }
 
     override fun showCurrentWeather(forecast: CurrentWeatherUi) {
-        runUpdatingWeatherSunClock()
-
         tvWindSpeed.text = forecast.windSpeed
         tvTemperatureNow.text = forecast.temp
         tvCurrentTime.text = SimpleDateFormat(
@@ -86,24 +83,29 @@ class WeatherForecastFragment : BaseFragment(), WeatherForecastContract.View {
 
     }
 
-    private fun runUpdatingWeatherSunClock() {
-        //set progress each minutes
-        Timer().schedule(object : TimerTask() {
-            override fun run() {
-                view?.post {
-                    //get current time and set progress, sunrise and sunset
-                    val date = Date(Calendar.getInstance().time.time)
-                    customWeatherSunClock?.setProgress(date.time)
-                }
-            }
-        }, 0, 6000)
+    override fun updateTime() {
+        val date = Date(Calendar.getInstance().time.time)
+        customWeatherSunClock?.setProgress(date.time)
     }
 
-    override fun showFiveDayWeatherForecast(forecast: HourlyForecastUi) {
+    override fun showHourlyWeatherForecast(forecast: HourlyForecastUi) {
         (recycler3hForecast?.adapter as? HourlyForecastRecyclerAdapter)
             ?.update(forecast.minTemp, forecast.maxTemp, forecast.hourItem)
 
         activity()?.setToolbarTitle(forecast.city)
+    }
+
+    override fun showFiveDayWeatherForecast(forecast: DailyForecastUi) {
+        (recycler3hForecast?.adapter as? HourlyForecastRecyclerAdapter)
+            ?.update(forecast.minTemp, forecast.maxTemp, forecast.items)
+    }
+
+    override fun setForecastSwitchModeState(enabled: Boolean) {
+        switchWeatherMode.setOnCheckedChangeListener(null)
+        switchWeatherMode.isChecked = enabled
+        switchWeatherMode.setOnCheckedChangeListener { _, isEnabled ->
+            presenter.onWeatherModeChanged(isEnabled)
+        }
     }
 
     override fun showLoading() {

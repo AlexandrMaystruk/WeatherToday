@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/tvDay"
+            android:layout_marginStart="@dimen/padding_size_4"
+            android:layout_marginEnd="@dimen/padding_size_4"
+            style="@style/StatusSuper"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <ImageView
+            android:id="@+id/ivWeatherIcon"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="@dimen/padding_size_40"
+            android:layout_height="@dimen/padding_size_40"
+            android:contentDescription=""
+            android:src="@drawable/ic_launcher_foreground" />
+
+
+    <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <TextView
+                style="@style/StatusAttention"
+                android:text="%"
+                android:id="@+id/tvHumidity"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_size_4"
+                app:drawableStartCompat="@drawable/ic_baseline_water_drop_24" />
+
+        <TextView
+                style="@style/StatusAttention"
+                android:id="@+id/tvPressure"
+                android:layout_margin="@dimen/padding_size_4"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:drawableStartCompat="@drawable/ic_pressure" />
+    </LinearLayout>
+
+    <TextView
+            style="@style/BodyLight"
+            android:id="@+id/tvTemperatureMax"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/padding_size_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <TextView
+            style="@style/BodyLight"
+            android:id="@+id/tvTemperatureMin"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/padding_size_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <TextView
+            style="@style/StatusAttention"
+            android:id="@+id/tvRain"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/padding_size_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <TextView
+            style="@style/StatusAttention"
+            android:id="@+id/tvUltraviolet"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/padding_size_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+</LinearLayout>

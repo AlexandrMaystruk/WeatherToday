@@ -8,6 +8,7 @@ import com.gmail.maystruks08.whatweathernow.data.repository.entity.ForecastMode
 import com.gmail.maystruks08.whatweathernow.ui.base.BasePresenter
 import com.gmail.maystruks08.whatweathernow.ui.base.BaseView
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 data class CurrentWeatherUi(
     val temp: String,
@@ -21,23 +22,54 @@ data class HourlyForecastUi(
     val city: String,
     val minTemp: Float,
     val maxTemp: Float,
-    val hourItem: List<HourItemUi>
+    val hourItem: List<HourWeatherItemUi>
 )
 
-data class HourItemUi(
+interface WeatherItemUi
+
+data class HourWeatherItemUi(
     val time: String,
     val humidity: String,
     val maxTemperature: Float,
     val minTemperature: Float,
     val temperature: Float,
     val weatherIconUrl: String
+): WeatherItemUi
+
+
+data class DailyForecastUi(
+    val minTemp: Float,
+    val maxTemp: Float,
+    val items: List<DayWeatherItemUi>
 )
+
+data class DayWeatherItemUi(
+    val sunrise: Long,
+    val sunset: Long,
+    val pressure: String,
+    val humidity: String,
+    val clouds: Int,
+    val dateTime: String,
+    val windSpeed: Float,
+    val tempMin: String,
+    val tempMax: String,
+    val tempMinFeelsLike: Float?,
+    val tempMaxFeelsLike: Float?,
+    val icon: String,
+    val description: String,
+    val ultraviolet: String,
+    val rain: String,
+    val isSelected: Boolean
+): WeatherItemUi
 
 interface WeatherForecastContract {
 
     interface View : BaseView {
+        fun updateTime()
         fun showCurrentWeather(forecast: CurrentWeatherUi)
-        fun showFiveDayWeatherForecast(forecast: HourlyForecastUi)
+        fun showHourlyWeatherForecast(forecast: HourlyForecastUi)
+        fun showFiveDayWeatherForecast(forecast: DailyForecastUi)
+        fun setForecastSwitchModeState(enabled: Boolean)
         fun showLoading()
         fun hideLoading()
         fun showError(error: String)
@@ -46,6 +78,7 @@ interface WeatherForecastContract {
     interface Presenter : BasePresenter<View> {
         fun loadContent()
         fun updateLocation(location: LocaleStorage.Location)
+        fun onWeatherModeChanged(enabled: Boolean)
     }
 
 
@@ -55,6 +88,8 @@ interface WeatherForecastContract {
         suspend fun getHourlyFiveDayForecast(): Flow<HourlyForecast5Days>
         suspend fun get7DaysForecast(): Flow<DailyForecast7Days>
         suspend fun updateLocation(newLocation: LocaleStorage.Location)
+        suspend fun updateForecastMode(newForecastMode: ForecastMode)
+
     }
 
 }

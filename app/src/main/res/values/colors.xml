@@ -2,7 +2,7 @@
 <resources>
     <color name="risk">#ff6454</color>
     <color name="attention">#febf30</color>
-    <color name="attention_capacity_50">#38fce700</color>
+    <color name="attention_capacity_50">#0CFCE700</color>
     <color name="green">#4ecc88</color>
     <color name="bg">#f6f8f9</color>
     <color name="attention_text">#f0ad14</color>

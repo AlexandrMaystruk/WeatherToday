@@ -6,6 +6,16 @@
         android:orientation="vertical">
 
 
+    <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchWeatherMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/attention_text"
+            android:layout_margin="@dimen/padding_size_12"
+            android:text="Почасовой прогноз"
+            app:layout_constraintBottom_toTopOf="@+id/recycler3hForecast"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     <FrameLayout
             android:layout_width="320dp"
             android:layout_height="320dp"
@@ -109,6 +119,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
