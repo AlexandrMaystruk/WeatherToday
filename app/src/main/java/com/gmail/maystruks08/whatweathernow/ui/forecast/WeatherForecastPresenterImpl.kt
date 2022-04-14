@@ -3,15 +3,16 @@ package com.gmail.maystruks08.whatweathernow.ui.forecast
 import android.util.Log
 import com.gmail.maystruks08.whatweathernow.data.dto.current.CurrentWeatherData
 import com.gmail.maystruks08.whatweathernow.data.dto.hourly5days.HourlyForecast5Days
+import com.gmail.maystruks08.whatweathernow.data.getShortTime
 import com.gmail.maystruks08.whatweathernow.data.network.LocaleStorage
+import com.gmail.maystruks08.whatweathernow.data.parseDate
 import com.gmail.maystruks08.whatweathernow.data.repository.WeatherRepository
 import com.gmail.maystruks08.whatweathernow.data.repository.entity.ForecastMode
+import com.gmail.maystruks08.whatweathernow.data.toHumanDayOfWeek
 import com.gmail.maystruks08.whatweathernow.ui.base.BasePresenterImpl
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 
@@ -19,8 +20,6 @@ import javax.inject.Inject
 class WeatherForecastPresenterImpl @Inject constructor(
     private var repository: WeatherRepository
 ) : BasePresenterImpl<WeatherForecastContract.View>(), WeatherForecastContract.Presenter {
-
-    val calendar = Calendar.getInstance()
 
     override fun loadContent() {
         presenterCoroutineScope.launch {
@@ -147,14 +146,10 @@ class WeatherForecastPresenterImpl @Inject constructor(
                 val minTemperature = it.main.temp_min.toFloat()
                 if (maxTemperature > maxTemp) maxTemp = maxTemperature
                 if (minTemperature < minTemp) minTemp = minTemperature
-
-
-                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                calendar.time = formatter.parse(it.dt_txt) ?: Date()
-
+                val dateTime = it.dt_txt.parseDate()
                 add(
                     HourItemUi(
-                        time = "${calendar.get(Calendar.DAY_OF_WEEK)} ${calendar.get(Calendar.HOUR)}:${calendar.get(Calendar.MINUTE)} ",
+                        time = dateTime.toHumanDayOfWeek() + " " + dateTime.getShortTime(),
                         humidity = it.main.humidity.toString().plus(" %"),
                         temperature = it.main.temp.toFloat(),
                         maxTemperature = it.main.temp_max.toFloat(),
