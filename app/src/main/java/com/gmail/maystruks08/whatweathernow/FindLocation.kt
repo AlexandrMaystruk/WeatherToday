@@ -19,13 +19,8 @@ class FindLocation(val context: Context) {
 
     private var callback: MyLocationChange? = null
     private val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-
     private val locationListener = object : LocationListener {
-
         override fun onLocationChanged(location: Location) {
-            turnGPSOff()
-            stopLocationMonitoring()
             callback?.callbackLocationChange(location)
         }
 
@@ -44,12 +39,7 @@ class FindLocation(val context: Context) {
 
     fun addLocationListener(listener: MyLocationChange) {
         this.callback = listener
-    }
-
-    fun startLocationMonitoring() {
-
         turnGPSOn()
-
         try {
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
@@ -65,19 +55,13 @@ class FindLocation(val context: Context) {
         }
     }
 
-    fun turnGPSOff() {
-        Log.d("find", "turnGPSOff------------------------>")
-        val provider = Settings.Secure.getString(context.contentResolver, Settings.Secure.ALLOWED_GEOLOCATION_ORIGINS)
-        if (provider.contains("gps")) { //if gps is enabled
-            val poke = Intent()
-            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider")
-            poke.addCategory(Intent.CATEGORY_ALTERNATIVE)
-            poke.data = Uri.parse("3")
-            context.sendBroadcast(poke)
-        }
+    fun stopLocationMonitoring() {
+        locationManager.removeUpdates(locationListener)
+        turnGPSOff()
+        Log.d("find", "stopLocationMonitoring------------------------>")
     }
 
-    fun turnGPSOn() {
+    private fun turnGPSOn() {
         val provider = Settings.Secure.getString(context.contentResolver, Settings.Secure.ALLOWED_GEOLOCATION_ORIGINS)
 
         if (!provider.contains("gps")) { //if gps is disabled
@@ -90,11 +74,15 @@ class FindLocation(val context: Context) {
         Log.d("find", "turnGPSOn------------------------>")
     }
 
-    fun stopLocationMonitoring() {
-        locationManager.removeUpdates(locationListener)
-        turnGPSOff()
-        Log.d("find", "stopLocationMonitoring------------------------>")
-
+    private fun turnGPSOff() {
+        Log.d("find", "turnGPSOff------------------------>")
+        val provider = Settings.Secure.getString(context.contentResolver, Settings.Secure.ALLOWED_GEOLOCATION_ORIGINS)
+        if (provider.contains("gps")) { //if gps is enabled
+            val poke = Intent()
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider")
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE)
+            poke.data = Uri.parse("3")
+            context.sendBroadcast(poke)
+        }
     }
-
 }

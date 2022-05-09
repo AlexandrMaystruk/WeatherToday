@@ -8,6 +8,7 @@ import com.gmail.maystruks08.whatweathernow.WeatherApplication
 import com.gmail.maystruks08.whatweathernow.ui.base.BaseFragment
 import com.gmail.maystruks08.whatweathernow.ui.settings.adapter.BackgroundData
 import com.gmail.maystruks08.whatweathernow.ui.settings.adapter.BackgroundRecyclerAdapter
+import com.gmail.maystruks08.whatweathernow.ui.settings.adapter.SpacesItemDecoration
 import kotlinx.android.synthetic.main.fragment_select_background.*
 import javax.inject.Inject
 
@@ -21,16 +22,6 @@ class SelectBackgroundFragment : BaseFragment(), BackgroundContract.View {
         return R.layout.fragment_select_background
     }
 
-    companion object {
-        fun newInstance(): SelectBackgroundFragment {
-            val fragment = SelectBackgroundFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-
     override fun initPresenter() {
         WeatherApplication.component.provideBackgroundComponent().inject(this)
         mSelectBackgroundPresenter.attach(this)
@@ -39,8 +30,7 @@ class SelectBackgroundFragment : BaseFragment(), BackgroundContract.View {
     override fun initViews() {
         activity()?.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
         activity()?.showOptionMenu(false)
-
-        recyclerBackgroundImage.layoutManager = GridLayoutManager(context, 2)
+        recyclerBackgroundImage.addItemDecoration( SpacesItemDecoration(30))
         mSelectBackgroundPresenter.initUi()
 
     }
@@ -60,6 +50,15 @@ class SelectBackgroundFragment : BaseFragment(), BackgroundContract.View {
 
     override fun navigateBack() {
 
+    }
+
+    companion object {
+        fun newInstance(): SelectBackgroundFragment {
+            val fragment = SelectBackgroundFragment()
+            val args = Bundle()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }

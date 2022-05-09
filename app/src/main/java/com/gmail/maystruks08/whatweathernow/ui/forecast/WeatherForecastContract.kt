@@ -30,9 +30,7 @@ interface WeatherItemUi
 data class HourWeatherItemUi(
     val time: String,
     val humidity: String,
-    val maxTemperature: Float,
-    val minTemperature: Float,
-    val temperature: Float,
+    val temperature: Int,
     val weatherIconUrl: String
 ): WeatherItemUi
 

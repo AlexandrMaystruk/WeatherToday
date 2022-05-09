@@ -71,7 +71,7 @@ class WeatherForecastPresenterImpl @Inject constructor(
                     .getCurrentWeather()
                     .map { it.toUI() }
                     .collect {
-                        Log.d("RETROFIT", "RESULT current -> $it")
+                        Log.d("RETROFIT", "RESULT current -> ${it.temp}")
                         updateUI {
                             hideLoading()
                             showCurrentWeather(it)
@@ -103,7 +103,7 @@ class WeatherForecastPresenterImpl @Inject constructor(
                     .getHourlyFiveDayForecast()
                     .map { it.toUI() }
                     .collect { weatherCurrentData ->
-                        Log.d("RETROFIT", "RESULT hourly -> $weatherCurrentData")
+                        Log.d("RETROFIT", "RESULT hourly -> ${weatherCurrentData.city}")
                         updateUI {
                             hideLoading()
                             showHourlyWeatherForecast(weatherCurrentData)
@@ -129,7 +129,7 @@ class WeatherForecastPresenterImpl @Inject constructor(
                     .get7DaysForecast()
                     .map { it.toUi() }
                     .collect { forecastItems ->
-                        Log.d("RETROFIT", "RESULT 7 days -> $forecastItems")
+                        Log.d("RETROFIT", "RESULT 7 days -> ${forecastItems.maxTemp}")
                         updateUI {
                             hideLoading()
                             showFiveDayWeatherForecast(forecastItems)
@@ -146,12 +146,12 @@ class WeatherForecastPresenterImpl @Inject constructor(
     }
 
     private fun cancelForecastsJobs() {
-        hourlyFiveDayForecastJob?.cancel()
-        forecast7DaysJob?.cancel()
+        hourlyFiveDayForecastJob?.cancel("hourlyFiveDayForecastJob CANCELLED")
+        forecast7DaysJob?.cancel("forecast7DaysJob CANCELLED")
     }
 
     private fun CurrentWeatherData.toUI() = CurrentWeatherUi(
-        temp = main.temp.toString().plus("°C"),
+        temp = main.temp.toInt().toString().plus("°C"),
         windSpeed = wind.speed.toString().plus("km/h"),
         humidity = main.humidity.toString().plus("%"),
         sunrise = sys.sunrise * 1000L,
@@ -176,9 +176,7 @@ class WeatherForecastPresenterImpl @Inject constructor(
                     HourWeatherItemUi(
                         time = "${dateTime.toHumanDayOfWeek()} ${dateTime.getShortTime()}",
                         humidity = it.main.humidity.toString().plus("%"),
-                        temperature = it.main.temp.toFloat(),
-                        maxTemperature = it.main.temp_max.toFloat(),
-                        minTemperature = it.main.temp_min.toFloat(),
+                        temperature = it.main.temp.toInt(),
                         weatherIconUrl = "http://openweathermap.org/img/w/${shortWeatherInfo.icon}.png"
                     )
                 )
@@ -209,8 +207,8 @@ class WeatherForecastPresenterImpl @Inject constructor(
                 clouds = daily.clouds,
                 dateTime = Date(daily.dt.toLong() * 1000L).toHumanDayOfWeek(),
                 windSpeed = daily.windSpeed.toFloat(),
-                tempMin = "${daily.temp.min.toFloat()}°C",
-                tempMax = "${daily.temp.max.toFloat()}°C",
+                tempMin = "${daily.temp.min.toInt()}°C",
+                tempMax = "${daily.temp.max.toInt()}°C",
                 tempMinFeelsLike = daily.feelsLike?.night?.toFloat(),
                 tempMaxFeelsLike = daily.feelsLike?.day?.toFloat(),
                 icon = "http://openweathermap.org/img/w/${shortWeatherInfo.icon}.png",

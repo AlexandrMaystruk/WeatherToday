@@ -11,6 +11,7 @@ import com.gmail.maystruks08.whatweathernow.data.dto.daily7days.DailyForecast7Da
 import com.gmail.maystruks08.whatweathernow.data.dto.hourly5days.HourlyForecast5Days
 import com.gmail.maystruks08.whatweathernow.data.repository.entity.ForecastMode
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -77,13 +78,16 @@ class LocaleStorage @Inject constructor(
         }
     }
 
-    fun getCurrentWeather(): Flow<CurrentWeatherData> {
-        return context.prefsDataStore.data
-            .map { preferences ->
-                preferences[CURRENT_WEATHER_CACHE]?.let {
-                    JsonUtil.fromJson(it)
-                } ?: throw RuntimeException("Can't convert json to CurrentWeather object")
-            }
+    suspend fun getCurrentWeather(): Result<CurrentWeatherData> {
+        return kotlin.runCatching {
+            context.prefsDataStore.data
+                .map { preferences ->
+                    preferences[CURRENT_WEATHER_CACHE]
+                        ?.let {
+                            JsonUtil.fromJson<CurrentWeatherData>(it)
+                        } ?: throw RuntimeException("Absent cached current weather")
+                }.first()
+        }
     }
 
     suspend fun saveHourlyForecast5Days(weather: HourlyForecast5Days) {
@@ -92,13 +96,15 @@ class LocaleStorage @Inject constructor(
         }
     }
 
-    fun getHourlyForecast5Days(): Flow<HourlyForecast5Days> {
-        return context.prefsDataStore.data
-            .map { preferences ->
-                preferences[HOURLY_5_DAYS_CACHE]?.let {
-                    JsonUtil.fromJson(it)
-                } ?: throw RuntimeException("Can't convert json to HourlyForecast5Days object")
-            }
+    suspend fun getHourlyForecast5Days(): Result<HourlyForecast5Days> {
+        return kotlin.runCatching {
+            context.prefsDataStore.data
+                .map { preferences ->
+                    preferences[HOURLY_5_DAYS_CACHE]?.let {
+                        JsonUtil.fromJson<HourlyForecast5Days>(it)
+                    } ?: throw RuntimeException("Absent cached HourlyForecast5Days")
+                }.first()
+        }
     }
 
     suspend fun saveDailyForecast7Days(weather: DailyForecast7Days) {
@@ -107,13 +113,15 @@ class LocaleStorage @Inject constructor(
         }
     }
 
-    fun getDailyForecast7Days(): Flow<DailyForecast7Days> {
-        return context.prefsDataStore.data
-            .map { preferences ->
-                preferences[DAILY_7_DAYS_CACHE]?.let {
-                    JsonUtil.fromJson(it)
-                } ?: throw RuntimeException("Can't convert json to DailyForecast7Days object")
-            }
+    suspend fun getDailyForecast7Days(): Result<DailyForecast7Days> {
+        return kotlin.runCatching {
+            context.prefsDataStore.data
+                .map { preferences ->
+                    preferences[DAILY_7_DAYS_CACHE]?.let {
+                        JsonUtil.fromJson<DailyForecast7Days>(it)
+                    } ?: throw RuntimeException("Absent cached DailyForecast7Days")
+                }.first()
+        }
     }
 
     companion object {

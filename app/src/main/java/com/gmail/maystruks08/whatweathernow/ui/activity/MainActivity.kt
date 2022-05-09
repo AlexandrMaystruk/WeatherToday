@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.gmail.maystruks08.whatweathernow.R
 import com.gmail.maystruks08.whatweathernow.WeatherApplication
-import com.gmail.maystruks08.whatweathernow.ui.editlocation.CityFragment
 import com.gmail.maystruks08.whatweathernow.ui.forecast.WeatherForecastFragment
 import com.gmail.maystruks08.whatweathernow.ui.settings.SelectBackgroundFragment
 import kotlinx.android.synthetic.main.activity_content.*
@@ -24,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_content.*
 class MainActivity : AppCompatActivity() {
 
     private var menu: Menu? = null
+    private var toolbarTitle: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,26 +41,10 @@ class MainActivity : AppCompatActivity() {
 
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-
-//            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//            val activeNetwork = cm.activeNetworkInfo
-//
-//            if (activeNetwork != null && activeNetwork.isConnected) {
-//                configToolbarOfflineMessage(false)
-//
-//                //get coordinate from SharedPreferences when Internet Active
-//                val pref = getSharedPreferences("CURRENT_LOCATION", Context.MODE_PRIVATE)
-//                val lat = pref?.getString("LOCATION_LATITUDE", "46.484579")
-//                val lon = pref?.getString("LOCATION_LONGITUDE", "30.732597")
-//
-//                if (lat != null  && lon != null && lat != "-1" && lon != "-1") {
-////                    mHourlyWeatherPresenter.getForecastByLatLng(lat, lon)
-////                    mHourlyWeatherPresenter.getFiveDayForecastByLatLng(lat, lon)
-//                }
-//
-//            } else {
-//                configToolbarOfflineMessage(true)
-//            }
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork = cm.activeNetworkInfo
+            val isOnline = activeNetwork != null && activeNetwork.isConnected
+            configToolbarOfflineMessage(isOnline.not())
         }
     }
 
@@ -74,10 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> {
-                navigateTo(CityFragment.newInstance())
-                true
-            }
             R.id.action_change_background -> {
                 navigateTo(SelectBackgroundFragment.newInstance())
                 true
@@ -114,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             tvTitleToolbar.visibility = View.VISIBLE
             progressToolbar.visibility = View.VISIBLE
         } else {
-            main_toolbar.title = getString(R.string.app_name)
+            main_toolbar.title = toolbarTitle ?: getString(R.string.app_name)
             tvTitleToolbar.visibility = View.GONE
             progressToolbar.visibility = View.GONE
         }
@@ -125,6 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setToolbarTitle(title: String) {
+        toolbarTitle = title
         main_toolbar.title = title
     }
 

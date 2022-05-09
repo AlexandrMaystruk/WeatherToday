@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ivBackgroundItem"
-        android:scaleType="fitCenter"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="@dimen/padding_size_16"
-        android:layout_marginEnd="@dimen/padding_size_16"
-        android:layout_marginTop="@dimen/padding_size_16"
-        android:contentDescription="sdv" />
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:contentPadding="0dp"
+        app:cardCornerRadius="@dimen/padding_size_7">
 
-
+    <ImageView
+            android:id="@+id/ivBackgroundItem"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name" />
+</androidx.cardview.widget.CardView>

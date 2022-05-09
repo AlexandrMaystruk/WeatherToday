@@ -130,6 +130,7 @@ class WeatherForecastFragment : BaseFragment(), WeatherForecastContract.View {
         super.onDestroyView()
         presenter.detach()
         recycler3hForecast?.adapter = null
+        location.stopLocationMonitoring()
     }
 
     private fun checkLocationPermission() {
@@ -147,7 +148,6 @@ class WeatherForecastFragment : BaseFragment(), WeatherForecastContract.View {
                             )
                         }
                     })
-                    location.startLocationMonitoring()
                 }
 
                 override fun onPermissionDenied(response: PermissionDeniedResponse) {
